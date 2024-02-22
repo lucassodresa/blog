@@ -49,7 +49,6 @@ jobs:
         uses: actions/deploy-pages@v3
 
   deploy-sanity:
-    needs: build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -69,5 +68,5 @@ jobs:
       - name: Deploy Sanity
         run: |
             set -e
-            
+
             SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" yarn sanity deploy
