@@ -51,7 +51,7 @@ jobs:
   deploy-sanity:
     env:
       SANITY_AUTH_TOKEN: "${{ secrets.SANITY_AUTH_TOKEN }}"
-      SANITY_STUDIO_FRONTEND_BASE_URL: "${{ vars.SANITY_STUDIO_FRONTEND_BASE_URL }}"
+      # SANITY_STUDIO_FRONTEND_BASE_URL: "${{ vars.SANITY_STUDIO_FRONTEND_BASE_URL }}"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -79,4 +79,7 @@ jobs:
       - name: Deploy Sanity
         run: |
             set -e
+            cat << EOF > .env.production
+            SANITY_STUDIO_FRONTEND_BASE_URL=${{ vars.SANITY_STUDIO_FRONTEND_BASE_URL }}
+            EOF
             npm run deploy
