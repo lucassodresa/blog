@@ -1,16 +1,16 @@
 ---
-import { Layouts } from "../layouts";
-import { Footer } from "../components/footer";
-import { Header } from "../components/header";
+import BaseLayout from "../layouts/base.astro";
+import Footer from "../components/footer.astro";
+import Header from "../components/header.astro";
 import "../styles/global.css";
 ---
 
-<Layouts.Base title="Home">
-<Header />
+<BaseLayout title="Home">
+  <Header />
 
   <main>
     <h1>Home</h1>
   </main>
 
   <Footer />
-</Layouts.Base>
+</BaseLayout>
