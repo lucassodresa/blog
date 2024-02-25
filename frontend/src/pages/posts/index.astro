@@ -1,0 +1,27 @@
+---
+import { sanityClient } from "sanity:client";
+import BaseLayout from "../../layouts/base.astro";
+
+const posts = await sanityClient.fetch(
+  `*[_type == "post" && defined(slug)] | order(publishedAt desc)`
+);
+---
+
+<BaseLayout title="Posts">
+  
+  <code>
+    {JSON.stringify(posts)}
+  </code>
+  
+  <ul>
+    {
+      posts.map((post) => (
+        <li>
+          <a href={"/posts/" + post.slug.current} class="post-link">
+            {post.title}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

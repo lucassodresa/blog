@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../../layouts/base.astro";
+
+export function getStaticPaths() {
+  return [{ params: { id: "123" } }];
+}
+
+const { id } = Astro.params;
+---
+
+<BaseLayout title="Home">
+  <main>
+    <h1>{id}</h1>
+  </main>
+</BaseLayout>
