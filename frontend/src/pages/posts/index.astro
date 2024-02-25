@@ -2,7 +2,14 @@
 import { sanityClient } from "sanity:client";
 import BaseLayout from "../../layouts/base.astro";
 
-const posts = await sanityClient.fetch(
+type IPost = {
+  title: string
+  slug: {
+    current: string
+  }
+}
+
+const posts: IPost[] = await sanityClient.fetch(
   `*[_type == "post" && defined(slug)] | order(publishedAt desc)`
 );
 ---
