@@ -9,6 +9,7 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+      validation:rule => rule.required().max(100)
     }),
     defineField({
       name: 'slug',
@@ -18,21 +19,30 @@ export default defineType({
         source: 'title',
         maxLength: 96,
       },
+      validation:rule => rule.required()
+    }),
+    defineField({
+      title: 'Description',
+      name: 'description',
+      type: 'text',
+      validation:rule => rule.required().max(200)
     }),
     defineField({
       name: 'author',
       title: 'Author',
       type: 'reference',
       to: {type: 'author'},
+      validation:rule => rule.required()
     }),
-    defineField({
-      name: 'mainImage',
-      title: 'Main image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    }),
+    // defineField({
+    //   name: 'mainImage',
+    //   title: 'Main image',
+    //   type: 'image',
+    //   options: {
+    //     hotspot: true,
+    //   },
+    //   validation:rule => rule.required()
+    // }),
     defineField({
       name: 'categories',
       title: 'Categories',
@@ -48,6 +58,7 @@ export default defineType({
       name: 'body',
       title: 'Body',
       type: 'blockContent',
+      validation:rule => rule.required()
     }),
   ],
 

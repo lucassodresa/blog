@@ -1,0 +1,114 @@
+---
+import { sanityClient } from "sanity:client";
+import { PortableText } from "astro-portabletext";
+import BaseLayout from "../../layouts/base.astro";
+import type { PortableTextBlock } from "sanity";
+
+import Image from "../../components/portabletext/Image.astro";
+
+const components = {
+  type: {
+    image: Image
+  }
+};
+
+type IPost = {
+  title: string;
+  slug: string;
+  description: string;
+  body: PortableTextBlock;
+  author: {
+    name: string;
+    role: string;
+    imageUrl: string;
+  };
+  _updatedAt: string;
+  _createdAt: string;
+};
+
+export const getStaticPaths = async () => {
+  const posts: IPost[] = await sanityClient.fetch(
+    `*[_type == "post" && defined(slug)] | order(publishedAt desc)
+  {
+    _id, 
+    title, 
+    "slug": slug.current,
+    description,
+    body,
+    author->{
+      name,
+      role,
+      "imageUrl": image.asset->url
+    },
+    _updatedAt,
+    _createdAt
+  }`
+  );
+
+  return posts.map(({ slug, title, description, author, _createdAt, body }) => {
+    const date = new Date(_createdAt);
+    const dateString = new Intl.DateTimeFormat("en-US", {
+      dateStyle: "medium",
+    }).format(date);
+
+    return {
+      params: { slug },
+      props: { title, description, body, author, dateString },
+    };
+  });
+};
+
+const { title, description, body, author, dateString } = Astro.props;
+---
+
+<BaseLayout title={`${title} | Post`}>
+  <main
+    class="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased"
+  >
+    <div class="flex justify-between px-4 mx-auto max-w-screen-xl">
+      <article
+        class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert"
+      >
+        <header class="mb-4 lg:mb-6 not-format">
+          <address class="flex items-center mb-6 not-italic">
+            <div
+              class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"
+            >
+              <img
+                class="mr-4 w-16 h-16 rounded-full"
+                src={author.imageUrl}
+                alt={author.name}
+              />
+              <div>
+                <a
+                  href="#"
+                  rel="author"
+                  class="text-xl font-bold text-gray-900 dark:text-white"
+                  >{author.name}</a
+                >
+                <p class="text-base text-gray-500 dark:text-gray-400">
+                  {author.role}
+                </p>
+                <p class="text-base text-gray-500 dark:text-gray-400">
+                  <time datetime="2022-02-08" title="February 8th, 2022"
+                    >{dateString}</time
+                  >
+                </p>
+              </div>
+            </div>
+          </address>
+          <h1
+            class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white"
+          >
+            {title}
+          </h1>
+        </header>
+        <p class="lead">
+          {description}
+        </p>
+
+        <PortableText value={body} components={components}/>
+      </article>
+    </div>
+  </main>
+</BaseLayout>

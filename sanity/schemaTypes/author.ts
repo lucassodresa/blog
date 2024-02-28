@@ -9,6 +9,7 @@ export default defineType({
       name: 'name',
       title: 'Name',
       type: 'string',
+      validation:rule => rule.required().max(100)
     }),
     defineField({
       name: 'slug',
@@ -18,6 +19,13 @@ export default defineType({
         source: 'name',
         maxLength: 96,
       },
+      validation:rule => rule.required()
+    }),
+    defineField({
+      name: 'role',
+      title: 'Role',
+      type: 'string',
+      validation:rule => rule.required().max(100)
     }),
     defineField({
       name: 'image',
@@ -26,6 +34,7 @@ export default defineType({
       options: {
         hotspot: true,
       },
+      validation:rule => rule.required()
     }),
   ],
   preview: {
