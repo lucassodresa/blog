@@ -3,13 +3,13 @@ import { sanityClient } from "sanity:client";
 import { PortableText } from "astro-portabletext";
 import BaseLayout from "../../layouts/base.astro";
 import type { PortableTextBlock } from "sanity";
-
 import Image from "../../components/portabletext/Image.astro";
+import { imageUrlBuilder } from "../../lib/sanity";
 
 const components = {
   type: {
-    image: Image
-  }
+    image: Image,
+  },
 };
 
 type IPost = {
@@ -61,7 +61,7 @@ export const getStaticPaths = async () => {
 const { title, description, body, author, dateString } = Astro.props;
 ---
 
-<BaseLayout title={`${title} | Post`}>
+<BaseLayout title={`${title} | Post`} description={description}>
   <main
     class="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased"
   >
@@ -74,14 +74,18 @@ const { title, description, body, author, dateString } = Astro.props;
             <div
               class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"
             >
-            <a href="https://www.linkedin.com/in/lucassodresa">
-
-              <img
-              class="mr-4 w-16 h-16 rounded-full"
-              src={author.imageUrl}
-              alt={author.name}
-              />
-            </a>
+              <a href="https://www.linkedin.com/in/lucassodresa">
+                <img
+                  class="mr-4 w-16 h-16 rounded-full"
+                  src={imageUrlBuilder(author.imageUrl)
+                    .height(64)
+                    .width(64)
+                    .format("webp")
+                    .url()}
+                  alt={author.name}
+                  loading="lazy"
+                />
+              </a>
               <div>
                 <a
                   href="https://www.linkedin.com/in/lucassodresa"
@@ -110,7 +114,7 @@ const { title, description, body, author, dateString } = Astro.props;
           {description}
         </p>
 
-        <PortableText value={body} components={components}/>
+        <PortableText value={body} components={components} />
       </article>
     </div>
   </main>
