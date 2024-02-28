@@ -11,6 +11,11 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
 
+    <style>
+      html {
+        scrollbar-gutter: stable;
+      }
+    </style>
   </head>
   <body class="flex flex-col h-svh">
     <Header />
