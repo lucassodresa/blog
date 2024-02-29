@@ -34,15 +34,15 @@ export default defineType({
       to: {type: 'author'},
       validation:rule => rule.required()
     }),
-    // defineField({
-    //   name: 'mainImage',
-    //   title: 'Main image',
-    //   type: 'image',
-    //   options: {
-    //     hotspot: true,
-    //   },
-    //   validation:rule => rule.required()
-    // }),
+    defineField({
+      name: 'mainImage',
+      title: 'Main image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      validation:rule => rule.required()
+    }),
     defineField({
       name: 'categories',
       title: 'Categories',
