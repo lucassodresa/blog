@@ -1,15 +1,16 @@
 ---
-import { imageUrlFor } from "../lib/sanity";
+import { imageUrlBuilder, imageUrlFor, isGif } from "../lib/sanity";
 
 type Asset = Parameters<typeof imageUrlFor>[0];
-
-export interface Props {
+interface Props {
   asset: Asset;
   alt: string;
 }
 
 const { asset, alt } = Astro.props;
-const image = imageUrlFor(asset);
+const image = isGif(asset.toString())
+  ? imageUrlBuilder(asset.toString()).url()
+  : imageUrlFor(asset);
 ---
 
-<img src={image} alt={alt}  loading="lazy"/>
+<img src={image} alt={alt} loading="lazy" />

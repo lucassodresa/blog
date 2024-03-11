@@ -4,6 +4,7 @@ import { PortableText } from "astro-portabletext";
 import BaseLayout from "../../layouts/Base.astro";
 import type { PortableTextBlock } from "sanity";
 import Image from "../../components/portabletext/Image.astro";
+import ImageAstro from "../../components/Image.astro";
 import Code from "../../components/portabletext/Code.astro";
 import { imageUrlBuilder } from "../../lib/sanity";
 
@@ -19,6 +20,7 @@ type IPost = {
   slug: string;
   description: string;
   body: PortableTextBlock;
+  mainImageUrl: string;
   author: {
     name: string;
     role: string;
@@ -37,6 +39,7 @@ export const getStaticPaths = async () => {
     "slug": slug.current,
     description,
     body,
+    "mainImageUrl": mainImage.asset->url,
     author->{
       name,
       role,
@@ -47,20 +50,22 @@ export const getStaticPaths = async () => {
   }`
   );
 
-  return posts.map(({ slug, title, description, author, _createdAt, body }) => {
-    const date = new Date(_createdAt);
-    const dateString = new Intl.DateTimeFormat("en-US", {
-      dateStyle: "medium",
-    }).format(date);
+  return posts.map(
+    ({ slug, title, description, author, _createdAt, body, mainImageUrl }) => {
+      const date = new Date(_createdAt);
+      const dateString = new Intl.DateTimeFormat("en-US", {
+        dateStyle: "medium",
+      }).format(date);
 
-    return {
-      params: { slug },
-      props: { title, description, body, author, dateString },
-    };
-  });
+      return {
+        params: { slug },
+        props: { title, description, body, mainImageUrl, author, dateString },
+      };
+    }
+  );
 };
 
-const { title, description, body, author, dateString } = Astro.props;
+const { title, description, body, author, dateString , mainImageUrl} = Astro.props;
 ---
 
 <BaseLayout title={`${title} | Post`} description={description}>
@@ -166,6 +171,8 @@ const { title, description, body, author, dateString } = Astro.props;
         <p class="lead">
           {description}
         </p>
+
+        <ImageAstro  asset={mainImageUrl} alt="main image title"/>
 
         <PortableText value={body} components={components} />
       </article>
