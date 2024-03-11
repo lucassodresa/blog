@@ -9,7 +9,7 @@ export default defineConfig({
   title: 'blog',
   projectId: 'jlf6c7o6',
   dataset: 'production',
-  plugins: [codeInput(), structureTool(), visionTool()],
+  plugins: [structureTool(), codeInput(), visionTool()],
   schema: {
     types: schemaTypes,
   },
