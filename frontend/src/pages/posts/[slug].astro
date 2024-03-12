@@ -65,7 +65,8 @@ export const getStaticPaths = async () => {
   );
 };
 
-const { title, description, body, author, dateString , mainImageUrl} = Astro.props;
+const { title, description, body, author, dateString, mainImageUrl } =
+  Astro.props;
 ---
 
 <BaseLayout title={`${title} | Post`} description={description}>
@@ -172,7 +173,7 @@ const { title, description, body, author, dateString , mainImageUrl} = Astro.pro
           {description}
         </p>
 
-        <ImageAstro  asset={mainImageUrl} alt="main image title"/>
+        <ImageAstro src={mainImageUrl} alt="main image title" />
 
         <PortableText value={body} components={components} />
       </article>

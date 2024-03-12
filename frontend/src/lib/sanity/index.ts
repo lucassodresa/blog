@@ -1,17 +1,21 @@
 import imageUrlBuilderSanity from "@sanity/image-url";
+import type { ImageUrlFormat } from "sanity";
 import { sanityClient } from "sanity:client";
 
-type ImageUrlBuilder = ReturnType<typeof imageUrlBuilderSanity>;
-type ImageSource = Parameters<ImageUrlBuilder["image"]>[0];
+export type ImageAsset = {
+  _ref: string;
+  _type: string;
+};
 
-export const isGif = (src: string) => src?.includes("gif");
+export const imageUrlForPortableText = (asset: ImageAsset) => {
+  const baseImageSourceConfig =
+    imageUrlBuilderSanity(sanityClient).image(asset);
 
-export const imageUrlFor = (source: ImageSource) =>
-  imageUrlBuilderSanity(sanityClient)
-    .image(source)
-    .width(700)
-    .format("webp")
-    .url();
+  const isGif = asset._ref.includes("gif");
+  if (isGif) return baseImageSourceConfig.url();
+
+  return baseImageSourceConfig.width(700).format("webp").url();
+};
 
 export const imageUrlBuilder = (src: string) =>
   imageUrlBuilderSanity(sanityClient).image(src);

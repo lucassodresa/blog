@@ -1,7 +1,18 @@
 ---
+import { imageUrlForPortableText, type ImageAsset } from "../../lib/sanity";
 import AstroImage from "../Image.astro";
 
+interface Props {
+  node: {
+    _type: string;
+    _key: string;
+    asset: ImageAsset;
+  };
+}
+
 const { node } = Astro.props;
+
+const src = imageUrlForPortableText(node.asset);
 ---
 
-<AstroImage {...node} />
+<AstroImage src={src} />
