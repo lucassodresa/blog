@@ -1,5 +1,4 @@
 import imageUrlBuilderSanity from "@sanity/image-url";
-import type { ImageUrlFormat } from "sanity";
 import { sanityClient } from "sanity:client";
 
 export type ImageAsset = {
