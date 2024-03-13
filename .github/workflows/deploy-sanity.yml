@@ -1,6 +1,9 @@
 name: Sanity deploy 
 on:
   workflow_call:
+    secrets:
+      SANITY_AUTH_TOKEN:
+        required: true
 jobs:
   deploy:
     env:
@@ -14,7 +17,7 @@ jobs:
         with:
           node-version: 20.x
           cache: npm
-      - name: Install dependencies
+      - name: print
         run: echo ${{ secrets.SANITY_AUTH_TOKEN }}
 
       - name: Install dependencies
