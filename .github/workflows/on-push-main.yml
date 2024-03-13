@@ -4,14 +4,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 jobs:
   deploy-sanity:
     uses: ./.github/workflows/deploy-sanity.yml
-  # deploy-website:
-  #   uses: ./.github/workflows/deploy-website.yml
-  #   needs: [ deploy-sanity ]
+  deploy-website:
+    uses: ./.github/workflows/deploy-website.yml
+    needs: [ deploy-sanity ]
