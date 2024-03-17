@@ -3,7 +3,8 @@ import { sanityIntegration } from "@sanity/astro";
 import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
-  site: "https://blog.lucassodresa.com",
+  prefetch: true,
+  site: "https://lucassodresa.com",
   integrations: [
     tailwind(),
     sanityIntegration({
