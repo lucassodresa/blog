@@ -2,6 +2,7 @@ name: Website deploy
 on:
   workflow_call:
   workflow_dispatch:
+  repository_dispatch:
 
 jobs:
   build:
