@@ -4,6 +4,7 @@ import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
   prefetch: true,
+  trailingSlash: 'ignore',
   site: "https://lucassodresa.com",
   integrations: [
     tailwind(),
